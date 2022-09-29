@@ -10,14 +10,26 @@
 </head>
 
 <body>
-    <main>
-        <input type="file" accept="image/*" multiple name="file" id="file" class="inputfile" />
+    <main style="overflow: hidden;">
+        <iframe id="myIframe" src="http://192.168.1.10/hp/device/index.htm" scrolling="no"
+            style="height: 490px; border: 0px none; width: 619px; margin-top: -60px; margin-left: -24px; "></iframe>
+        <input type="file" onchange="isUploaded(this)" accept="image/*, application/pdf" name="file" id="file"
+            class="inputfile" />
         <label for="file">
             <img src="./upload-icon.png" />
             Choose a file
         </label>
         <img src="" class="mainImg" id="myImg" />
-        <button class="button-29" role="button" onclick='handlePrinter()'>Print</button>
+        <div class="check-files-container">
+            <div class="check-file">
+                <embed src="" />
+                <img id="previewImg" src="" />
+                <div>
+                    <button class="button-29" role="button" onclick='handlePrinter()'>Print</button>
+                    <button class="button-29" role="button" onclick='closePopUp(false)'>Close</button>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="main.js"></script>
 </body>

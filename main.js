@@ -1,17 +1,63 @@
-function handlePrinter() {
-    // console.log(document.getElementById('file').files)
-    // document.getElementById('myImg').style = 'width: 100vw; height: 100vw;'
-    // pwin = window.open()
-    // pwin.onload = function () { window.print(); }
-    // document.querySelector('#myImg img').style = 'width: 100vw; height: 100vh;'
-    // let divToPrint = document.getElementById('myImg')
-    // newWin = window.open("")
-    // newWin.document.write(divToPrint.outerHTML);
-    // newWin.document.querySelector('body').style = 'background: black;'
-    // newWin.print();
-    // document.querySelector('#myImg img').style = 'width: 25px; height: 25px;'
-    document.getElementById('myImg').src = URL.createObjectURL(document.getElementById('file').files[0])
-    setTimeout(() => {
-        window.print()
-    }, 1000)
+async function handlePrinter() {
+    if (document.getElementById('file').files[0].type.includes('pdf')) {
+        var iframe = document.createElement('iframe');
+        // Hide the IFrame.  
+        iframe.style.visibility = "hidden";
+        // Define the source.  
+        iframe.src = URL.createObjectURL(document.getElementById('file').files[0]);
+        // Add the IFrame to the web page.
+        document.body.appendChild(iframe);
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print(); // Print.
+    } else if (document.getElementById('file').files[0].type.includes('image')) {
+        document.getElementById('myImg').src = URL.createObjectURL(document.getElementById('file').files[0])
+        setTimeout(() => {
+            window.print()
+        }, 1500)
+    }
+
+    await waiting()
+    location.reload();
 }
+
+async function waiting() {
+    return new Promise((res) => {
+        console.log('wait')
+        setTimeout(() => {
+            res()
+        }, 5500)
+    })
+}
+function isUploaded(getfile) {
+    if (getfile.files[0]) {
+        if (getfile.files[0].type.includes('image')) {
+            closePopUp(true, 'image')
+        } else {
+            closePopUp(true, 'pdf')
+        }
+    }
+}
+
+function closePopUp(state, type = 'none') {
+    if (state) {
+        document.querySelector('.check-files-container').style = 'display: flex;'
+        console.log(type)
+        if (type === 'image') {
+            document.querySelector('embed').style = 'display: none'
+            document.getElementById('previewImg').style = 'display: block'
+            document.getElementById('previewImg').src = URL.createObjectURL(document.getElementById('file').files[0])
+        } else if (type === 'pdf') {
+            document.getElementById('previewImg').style = 'display: none'
+            document.querySelector('embed').style = 'display: block'
+            document.querySelector('embed').src = URL.createObjectURL(document.getElementById('file').files[0])
+        } else {
+            document.querySelector('embed').style = 'display: none'
+            document.getElementById('previewImg').style = 'display: none'
+        }
+    } else {
+        document.querySelector('embed').style = 'display: none'
+        document.getElementById('previewImg').style = 'display: none'
+        document.querySelector('.check-files-container').style = 'display: none;'
+    }
+}
+
