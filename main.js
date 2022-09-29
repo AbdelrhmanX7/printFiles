@@ -13,7 +13,7 @@ async function handlePrinter() {
         document.getElementById('myImg').src = URL.createObjectURL(document.getElementById('file').files[0])
         setTimeout(() => {
             window.print()
-        }, 1500)
+        }, 2000)
     }
 
     await waiting()
@@ -46,6 +46,7 @@ function closePopUp(state, type = 'none') {
             document.querySelector('embed').style = 'display: none'
             document.getElementById('previewImg').style = 'display: block'
             document.getElementById('previewImg').src = URL.createObjectURL(document.getElementById('file').files[0])
+            document.getElementById('myImg').src = URL.createObjectURL(document.getElementById('file').files[0])
         } else if (type === 'pdf') {
             document.getElementById('previewImg').style = 'display: none'
             document.querySelector('embed').style = 'display: block'
